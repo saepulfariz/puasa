@@ -224,17 +224,6 @@ $puasa = [
 		"isya" => "18:55"
 	],
 	[
-		"tanggal" => 20,
-		"imsak" => "04:22",
-		"subuh" => "04:32",
-		"terbit" => "05:42",
-		"dhuha" => "06:15",
-		"dzuhur" => "11:49",
-		"ashar" => "15:09",
-		"magrib" => "17:46",
-		"isya" => "18:55"
-	],
-	[
 		"tanggal" => 21,
 		"imsak" => "04:22",
 		"subuh" => "04:32",
@@ -346,6 +335,7 @@ $puasa = [
 	],
 ];
 
+echo json_encode($puasa); die();
 
 // ini ketika kita ambil data puasanya lewat file json atau bisa dari api juga.
 $puasa = file_get_contents('puasa.json');
@@ -354,7 +344,6 @@ $puasa = json_decode($puasa, true);
 
 
 
-// echo json_encode($puasa); die();
 
 
  ?>
