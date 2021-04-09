@@ -50,6 +50,30 @@
 			height: 500px;
 			overflow: auto;
 		}
+
+		/* fixed header https://adrianroselli.com/2020/01/fixed-table-headers.html */
+
+		th {
+		  position: -webkit-sticky;
+		  position: sticky;
+		  top: 0;
+		  z-index: 2;
+		}
+
+		th[scope=row] {
+		  position: -webkit-sticky;
+		  position: sticky;
+		  left: 0;
+		  z-index: 1;
+		  background-color: #eee;
+		}
+
+		th[scope=row] {
+		  vertical-align: top;
+		  color: inherit;
+		  background-color: inherit;
+		  background: linear-gradient(90deg, transparent 0%, transparent calc(100% - .05em), #d6d6d6 calc(100% - .05em), #d6d6d6 100%);
+		}
     </style>
   </head>
   <body>
@@ -86,6 +110,16 @@
     					</div>
     				</div>
     			</div>
+    		</div>
+    	</div>
+    </div>
+
+
+    <div class="container">
+    	<div class="row justify-content-center">
+    		<div class="col-md-6">
+    			<!-- https://www.tickcounter.com/ -->
+    			<div data-type="countdown" data-id="2498105" class="tickcounter" style="width: 100%; position: relative; padding-bottom: 25%;"><a href="//www.tickcounter.com/countdown/2498105/countdown-ramadhan" title="CountDown Ramadhan">CountDown Ramadhan</a><a href="//www.tickcounter.com/" title="Countdown">Countdown</a></div><script>(function(d, s, id) { var js, pjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//www.tickcounter.com/static/js/loader.js"; pjs.parentNode.insertBefore(js, pjs); }(document, "script", "tickcounter-sdk"));</script>
     		</div>
     	</div>
     </div>
@@ -154,7 +188,7 @@
 		// The first argument is the post type (GET, POST, PUT, DELETE, etc.)
 		// The second argument is the endpoint URL
 		// https://jsonplaceholder.typicode.com/posts
-		xhr.open('GET', 'puasa.json');
+		xhr.open('GET', 'https://saepulfariz.github.io/puasa/puasa.json');
 		xhr.send();
     </script>
 
