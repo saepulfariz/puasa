@@ -117,9 +117,10 @@
 
     <div class="container">
     	<div class="row justify-content-center">
-    		<div class="col-md-6">
+    		<div class="col-md-6 bg-info">
+    			<div id="demo" class="text-center h3 py-1"></div>
     			<!-- https://www.tickcounter.com/ -->
-    			<div data-type="countdown" data-id="2498105" class="tickcounter" style="width: 100%; position: relative; padding-bottom: 25%;"><a href="//www.tickcounter.com/countdown/2498105/countdown-ramadhan" title="CountDown Ramadhan">CountDown Ramadhan</a><a href="//www.tickcounter.com/" title="Countdown">Countdown</a></div><script>(function(d, s, id) { var js, pjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//www.tickcounter.com/static/js/loader.js"; pjs.parentNode.insertBefore(js, pjs); }(document, "script", "tickcounter-sdk"));</script>
+    			<!-- <div data-type="countdown" data-id="2498105" class="tickcounter" style="width: 100%; position: relative; padding-bottom: 25%;"><a href="//www.tickcounter.com/countdown/2498105/countdown-ramadhan" title="CountDown Ramadhan">CountDown Ramadhan</a><a href="//www.tickcounter.com/" title="Countdown">Countdown</a></div><script>(function(d, s, id) { var js, pjs = d.getElementsByTagName(s)[0]; if (d.getElementById(id)) return; js = d.createElement(s); js.id = id; js.src = "//www.tickcounter.com/static/js/loader.js"; pjs.parentNode.insertBefore(js, pjs); }(document, "script", "tickcounter-sdk"));</script> -->
     		</div>
     	</div>
     </div>
@@ -133,63 +134,168 @@
     <script>
     	var isi = document.getElementById('isi');
 
+    	
 
-    	// Set up our HTTP request
-		var xhr = new XMLHttpRequest();
+		// Update the count down every 1 second
+		var x = setInterval(function() {
 
-		xhr.responseType = 'json';
-		// buat ubah ke result json
+			var d = new Date();
 
-		// Setup our listener to process completed requests
-		xhr.onload = function () {
+			var yearNow = d.getFullYear();
 
-			// Process our return data
-			if (xhr.status >= 200 && xhr.status < 300) {
-				// What do when the request is successful
+			var dateNow = d.getDate();
 
-				console.log('success!', xhr.response);
+			var hoursNow = d.getHours();
+			var minutesNow = d.getMinutes();
 
-				var countArray = xhr.response.length - 1;
 
-				console.log(xhr.response[0]['tanggal']);
 
-				var hasil = "";
+			// var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+			var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-				for (var i = 0; i < countArray + 1; i++) {
-					hasil += `<tr>
-					<td>`+xhr.response[i]['tanggal']+` Ramadan</td>
-					<td class="bg-success">`+xhr.response[i]['imsak']+`</td>
-					<td>`+xhr.response[i]['subuh']+`</td>
-					<td>`+xhr.response[i]['terbit']+`</td>
-					<td>`+xhr.response[i]['dhuha']+`</td>
-					<td>`+xhr.response[i]['dzuhur']+`</td>
-					<td>`+xhr.response[i]['ashar']+`</td>
-					<td  class="bg-success">`+xhr.response[i]['magrib']+`</td>
-					<td>`+xhr.response[i]['isya']+`</td>
-					</tr>
-					`;
+			var monthNow = months[d.getMonth()];
+
+
+			// monthNow = "Mar";
+			// dateNow = 13;
+
+			// console.log(hoursNow);
+
+			var dateSholat = "";
+
+			// Set up our HTTP request
+			var xhr = new XMLHttpRequest();
+
+			xhr.responseType = 'json';
+			// buat ubah ke result json
+
+			// Setup our listener to process completed requests
+			xhr.onload = function () {
+
+				// Process our return data
+				if (xhr.status >= 200 && xhr.status < 300) {
+					// What do when the request is successful
+
+					// console.log('success!', xhr.response);
+
+					var countArray = xhr.response.length - 1;
+
+					// console.log(xhr.response[0]['tanggal']);
+
+					// awal puasa 12 April 2021
+					// akhir puasa 12 mei 2021
+
+					const awal = 12;
+
+					var hasil = "";
+
+					for (var i = 0; i < countArray + 1; i++) {
+						// cek apakah tanggal sekarang - tanggal awal 
+						if (xhr.response[i]['tanggal'] == dateNow - awal) {
+							hasil += `<tr class="bg-danger">`;
+							bg = 'bg-danger';
+						}else{
+							hasil += `<tr>`;
+							bg = 'bg-success';
+						}
+						
+						hasil += `
+						<td>`+xhr.response[i]['tanggal']+` Ramadan </td>
+						<td class="`+bg+`">`+xhr.response[i]['imsak']+`</td>
+						<td>`+xhr.response[i]['subuh']+`</td>
+						<td>`+xhr.response[i]['terbit']+`</td>
+						<td>`+xhr.response[i]['dhuha']+`</td>
+						<td>`+xhr.response[i]['dzuhur']+`</td>
+						<td>`+xhr.response[i]['ashar']+`</td>
+						<td  class="`+bg+`">`+xhr.response[i]['magrib']+`</td>
+						<td>`+xhr.response[i]['isya']+`</td>
+						</tr>
+						`;
+					}
+
+					// console.log(parseInt(xhr.response[dateNow - awal]['dzuhur'].split(':')[1]));
+
+					if (hoursNow > 11 && minutesNow > parseInt(xhr.response[dateNow - awal]['dzuhur'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['ashar'];
+						sholat = "Menuju Waktu Ashar";
+					}else if (hoursNow > 15 && minutesNow > parseInt(xhr.response[dateNow - awal]['ashar'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['magrib'];
+						sholat = "Menuju Waktu Magrib";
+					}else if (hoursNow > 17 && minutesNow > parseInt(xhr.response[dateNow - awal]['magrib'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['isya'];
+						sholat = "Menuju Waktu Isya";
+					}else if (hoursNow > 18 && minutesNow > parseInt(xhr.response[dateNow - awal]['isya'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['imsak'];
+						sholat = "Menuju Waktu Imsak";
+					}else if (hoursNow > 4 && minutesNow > parseInt(xhr.response[dateNow - awal]['imsak'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['subuh'];
+						sholat = "Menuju Waktu Subuh";
+					}else if (hoursNow > 4 && minutesNow > parseInt(xhr.response[dateNow - awal]['subuh'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['terbit'];
+						sholat = "Menuju Waktu Terbit";
+					}else if (hoursNow > 5 && minutesNow > parseInt(xhr.response[dateNow - awal]['terbit'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['dhuha'];
+						sholat = "Menuju Waktu Dhuha";
+					}else if (hoursNow > 5 && minutesNow > parseInt(xhr.response[dateNow - awal]['dhuha'].split(':')[1])) {
+						dateSholat = xhr.response[dateNow - awal]['dzuhur'];
+						sholat = "Menuju Waktu Dzuhur";
+					}
+
+					// nanti semua yang ada di isi hasil di tambahkan ke tbody
+					isi.innerHTML = hasil;
+
+					// Set the date we're counting down to
+					var countDownDate = new Date(monthNow+" "+dateNow+", "+yearNow+" "+dateSholat+":1").getTime();
+
+					// Get today's date and time
+					var now = new Date().getTime();
+
+					// Find the distance between now and the count down date
+					var distance = countDownDate - now;
+
+					// Time calculations for days, hours, minutes and seconds
+					var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+					var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+					var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+					var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+					// Output the result in an element with id="demo"
+					document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+					+ minutes + "m " + seconds + "s " + "<br><span class='h5 text-sm text-primary'>{{ "+dateSholat+" }}</span><br><span class='text-danger h4'>"+sholat+"</span>";
+
+					
+
+					// If the count down is over, write some text 
+					if (distance < 0) {
+						clearInterval(x);
+						// document.getElementById("demo").innerHTML = "EXPIRED";
+						if (monthNow == "Mar" && dateNow == 13) {
+							document.getElementById("demo").innerHTML = "Minal Aidin Wal Faizin <br><span class='h4 text-danger'>Selamat Hari Lebaran</span>";
+						}
+					}
+
+					// alert(xhr.response);
+
+				} else {
+					// What do when the request fails
+					console.log('The request failed!');
 				}
 
-				// nanti semua yang ada di isi hasil di tambahkan ke tbody
-				isi.innerHTML = hasil;
 
-				// alert(xhr.response);
 
-			} else {
-				// What do when the request fails
-				console.log('The request failed!');
-			}
+				// Code that should run regardless of the request status
+				// console.log('This always runs...');
+			};
 
-			// Code that should run regardless of the request status
-			// console.log('This always runs...');
-		};
+			// Create and send a GET request
+			// The first argument is the post type (GET, POST, PUT, DELETE, etc.)
+			// The second argument is the endpoint URL
+			// https://jsonplaceholder.typicode.com/posts
+			xhr.open('GET', 'https://saepulfariz.github.io/puasa/puasa.json');
+			xhr.send();
 
-		// Create and send a GET request
-		// The first argument is the post type (GET, POST, PUT, DELETE, etc.)
-		// The second argument is the endpoint URL
-		// https://jsonplaceholder.typicode.com/posts
-		xhr.open('GET', 'https://saepulfariz.github.io/puasa/puasa.json');
-		xhr.send();
+		  
+		}, 1000);
     </script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
