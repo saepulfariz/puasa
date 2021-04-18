@@ -198,7 +198,7 @@
 							hasil += `<tr>`;
 							bg = 'bg-success';
 						}
-						
+
 						hasil += `
 						<td>`+xhr.response[i]['tanggal']+` Ramadan </td>
 						<td class="`+bg+`">`+xhr.response[i]['imsak']+`</td>
@@ -215,28 +215,28 @@
 
 					// console.log(parseInt(xhr.response[dateNow - awal]['dzuhur'].split(':')[1]));
 
-					if (hoursNow > 11 && minutesNow > parseInt(xhr.response[dateNow - awal]['dzuhur'].split(':')[1])) {
+					if ((hoursNow > 11 && minutesNow > parseInt(xhr.response[dateNow - awal]['dzuhur'].split(':')[1])) || (hoursNow > 11 && minutesNow < parseInt(xhr.response[dateNow - awal]['dzuhur'].split(':')[1]))) {
 						dateSholat = xhr.response[dateNow - awal]['ashar'];
 						sholat = "Menuju Waktu Ashar";
-					}else if (hoursNow > 15 && minutesNow > parseInt(xhr.response[dateNow - awal]['ashar'].split(':')[1])) {
+					}else if ((hoursNow > 15 && minutesNow > parseInt(xhr.response[dateNow - awal]['ashar'].split(':')[1])) || (hoursNow > 15 && minutesNow < parseInt(xhr.response[dateNow - awal]['ashar'].split(':')[1]))) {
 						dateSholat = xhr.response[dateNow - awal]['magrib'];
 						sholat = "Menuju Waktu Magrib";
-					}else if (hoursNow > 17 && minutesNow > parseInt(xhr.response[dateNow - awal]['magrib'].split(':')[1])) {
+					}else if ((hoursNow > 17 && minutesNow > parseInt(xhr.response[dateNow - awal]['magrib'].split(':')[1])) || hoursNow > 17 && minutesNow < parseInt(xhr.response[dateNow - awal]['magrib'].split(':')[1])) {
 						dateSholat = xhr.response[dateNow - awal]['isya'];
 						sholat = "Menuju Waktu Isya";
-					}else if (hoursNow > 18 && minutesNow > parseInt(xhr.response[dateNow - awal]['isya'].split(':')[1])) {
+					}else if ((hoursNow > 18 && minutesNow > parseInt(xhr.response[dateNow - awal]['isya'].split(':')[1])) || (hoursNow > 18 && minutesNow < parseInt(xhr.response[dateNow - awal]['isya'].split(':')[1]))) {
 						dateSholat = xhr.response[dateNow - awal]['imsak'];
 						sholat = "Menuju Waktu Imsak";
-					}else if (hoursNow > 4 && minutesNow > parseInt(xhr.response[dateNow - awal]['imsak'].split(':')[1])) {
+					}else if ((hoursNow > 4 && minutesNow > parseInt(xhr.response[dateNow - awal]['imsak'].split(':')[1])) || (hoursNow > 4 && minutesNow < parseInt(xhr.response[dateNow - awal]['imsak'].split(':')[1]))) {
 						dateSholat = xhr.response[dateNow - awal]['subuh'];
 						sholat = "Menuju Waktu Subuh";
-					}else if (hoursNow > 4 && minutesNow > parseInt(xhr.response[dateNow - awal]['subuh'].split(':')[1])) {
+					}else if ((hoursNow > 4 && minutesNow > parseInt(xhr.response[dateNow - awal]['subuh'].split(':')[1])) || (hoursNow > 4 && minutesNow < parseInt(xhr.response[dateNow - awal]['subuh'].split(':')[1]))) {
 						dateSholat = xhr.response[dateNow - awal]['terbit'];
 						sholat = "Menuju Waktu Terbit";
-					}else if (hoursNow > 5 && minutesNow > parseInt(xhr.response[dateNow - awal]['terbit'].split(':')[1])) {
+					}else if ((hoursNow > 5 && minutesNow > parseInt(xhr.response[dateNow - awal]['terbit'].split(':')[1])) || (hoursNow > 5 && minutesNow < parseInt(xhr.response[dateNow - awal]['terbit'].split(':')[1]))) {
 						dateSholat = xhr.response[dateNow - awal]['dhuha'];
 						sholat = "Menuju Waktu Dhuha";
-					}else if (hoursNow > 5 && minutesNow > parseInt(xhr.response[dateNow - awal]['dhuha'].split(':')[1])) {
+					}else if ((hoursNow > 5 && minutesNow > parseInt(xhr.response[dateNow - awal]['dhuha'].split(':')[1])) || (hoursNow > 5 && minutesNow < parseInt(xhr.response[dateNow - awal]['dhuha'].split(':')[1]))) {
 						dateSholat = xhr.response[dateNow - awal]['dzuhur'];
 						sholat = "Menuju Waktu Dzuhur";
 					}
